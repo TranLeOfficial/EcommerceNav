@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/thongtinshop"
+        android:orderInCategory="100"
+        android:icon="@drawable/info_shop"
+        android:title="Thông Tin Cửa Hàng"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/setting"
+        android:orderInCategory="100"
+        android:title="Cài Đặt"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/logout"
+        android:orderInCategory="100"
+        android:title="Đăng Xuất"
+        app:showAsAction="never" />
+</menu>
