@@ -1,5 +1,6 @@
 package com.example.ecommercenav;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -7,9 +8,11 @@ import android.view.Menu;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 
+import com.example.ecommercenav.Account.Login;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -26,6 +29,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -34,6 +38,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    Intent intent;
+    FirebaseAuth mAuth;
     DrawerLayout drawer;
     private AppBarConfiguration mAppBarConfiguration;
     BottomNavigationView bottomMenuBar;
@@ -43,10 +49,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        intent = getIntent();
+        mAuth = FirebaseAuth.getInstance();
         // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-        myRef.setValue("Hello, Tran Thanh Nhan!");
+
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -86,7 +93,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        
+        if (item.getItemId() == R.id.logout){
+            mAuth.signOut();
+            finish();
+            Toast.makeText(this,"bạn đã đăng xuất",Toast.LENGTH_LONG).show();
+            intent = new Intent(MainActivity.this, Login.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 

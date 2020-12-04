@@ -1,5 +1,6 @@
 package com.example.ecommercenav.Account;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -27,12 +28,15 @@ public class Login extends AppCompatActivity {
     Button btnSignup, btnLogin;
     EditText txtPhone, txtPass;
     Intent intent;
+    ProgressDialog progressDialog;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthStateListener;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+        progressDialog = new ProgressDialog(this);
         intent = getIntent();
         mAuth = FirebaseAuth.getInstance();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -66,6 +70,9 @@ public class Login extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
                 mAuth.signInWithEmailAndPassword(txtPhone.getText().toString(), txtPass.getText().toString())
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
