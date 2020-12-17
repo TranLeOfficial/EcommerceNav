@@ -23,9 +23,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Account.Register"
-            android:parentActivityName=".Account.Login" />
-        <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"></activity>

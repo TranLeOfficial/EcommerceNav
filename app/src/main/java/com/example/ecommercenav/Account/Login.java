@@ -23,6 +23,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Login extends AppCompatActivity {
 
     Button btnSignup, btnLogin;
@@ -70,22 +73,44 @@ public class Login extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
-                progressDialog.setMessage("Please wait...");
-                progressDialog.show();
-                mAuth.signInWithEmailAndPassword(txtPhone.getText().toString(), txtPass.getText().toString())
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(), "Đăng nhập thành công", Toast.LENGTH_LONG).show();
-                                    intent = new Intent(Login.this, MainActivity.class);
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(getApplicationContext(), " Thông tin tài khoản sai", Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
+
+                String emailRegEx = "^[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,4}$";
+                Pattern pattern = Pattern.compile(emailRegEx);
+                Matcher matcher = pattern.matcher(txtPhone.getText().toString());
+                if (txtPhone.getText().toString().isEmpty()) {
+                    Toast.makeText(Login.this, "Vui lòng nhập địa chỉ email", Toast.LENGTH_LONG).show();
+                    return;
+                } else if (!matcher.find()) {
+                    Toast.makeText(Login.this, "Địa chỉ email không đúng", Toast.LENGTH_LONG).show();
+                    return;
+                } else {
+                    //kiểm tra password
+                    String pass=txtPass.getText().toString();
+                    if (pass.length() < 6){
+                        Toast.makeText(getApplicationContext(), "Mật khẩu sai", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    else {
+                        //loading
+                        progressDialog.setMessage("Please wait...");
+                        progressDialog.show();
+                        mAuth.signInWithEmailAndPassword(txtPhone.getText().toString(), txtPass.getText().toString())
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getApplicationContext(), "Đăng nhập thành công", Toast.LENGTH_LONG).show();
+                                            intent = new Intent(Login.this, MainActivity.class);
+                                            startActivity(intent);
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), " Thông tin tài khoản sai", Toast.LENGTH_LONG).show();
+                                            progressDialog.dismiss();
+                                        }
+                                    }
+                                });
+
+                    }
+                }
 
             }
         });
