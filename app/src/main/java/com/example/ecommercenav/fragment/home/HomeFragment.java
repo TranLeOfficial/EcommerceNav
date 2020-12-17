@@ -1,13 +1,11 @@
 package com.example.ecommercenav.fragment.home;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ViewFlipper;
@@ -16,13 +14,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ecommercenav.Model.ProductModel;
 import com.example.ecommercenav.R;
-import com.squareup.picasso.Picasso;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment {
     private ViewFlipper viewFlipper;
@@ -30,10 +33,13 @@ public class HomeFragment extends Fragment {
     private Button button;
     //    RecyclerView
     private RecyclerView recyListData;
-    private List<String> titles;
-    private List<String> prices;
-    private List<Integer> images;
-    private RecyAdapter recyAdapter;
+    private ArrayList<ProductModel> productModels;
+    private AdapterProducts adapterProducts;
+//    private List<String> titles;
+//    private List<String> prices;
+//    private List<Integer> images;
+
+  
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,31 +48,26 @@ public class HomeFragment extends Fragment {
         viewFlipper = root.findViewById(R.id.viewLipper);
 //        Recyclerview
         recyListData = root.findViewById(R.id.recyListData);
-        titles = new ArrayList<>();
-        images = new ArrayList<>();
-        prices = new ArrayList<>();
-        titles.add("Hello World");
-        titles.add("Hello My");
-        titles.add("Hello Mon");
-        titles.add("Hello Meo");
-        titles.add("Hello Mon");
-        titles.add("Hello Meo");
-        prices.add("180000");
-        prices.add("180000");
-        prices.add("180000");
-        prices.add("180000");
-        prices.add("180000");
-        prices.add("180000");
-        images.add(R.drawable.banner_ao);
-        images.add(R.drawable.banner_giay);
-        images.add(R.drawable.banner_ao);
-        images.add(R.drawable.banner_giay);
-        images.add(R.drawable.banner_phone);
-        images.add(R.drawable.bg_profile);
-        recyAdapter = new RecyAdapter(getContext(), titles, images, prices);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
-        recyListData.setLayoutManager(gridLayoutManager);
-        recyListData.setAdapter(recyAdapter);
+//        titles = new ArrayList<>();
+//        images = new ArrayList<>();
+//        prices = new ArrayList<>();
+//        titles.add("Hello World");
+//        titles.add("Hello My");
+//        titles.add("Hello My");
+//
+//        prices.add("180000");
+//        prices.add("180000");
+//        prices.add("180000");
+//
+//        images.add(R.drawable.banner_ao);
+//        images.add(R.drawable.banner_ao);
+//        images.add(R.drawable.banner_giay);
+//
+//        recyAdapter = new RecyAdapter(getContext(), titles, images, prices);
+        loadAllProducts();
+
+        
+
 //        Banner
         int slides[] = {R.drawable.banner_phone, R.drawable.banner_ao, R.drawable.banner_giay};
         for (int slide : slides) {
@@ -74,6 +75,36 @@ public class HomeFragment extends Fragment {
         }
         return root;
     }
+
+    private void loadAllProducts() {
+        productModels = new ArrayList<>();
+        //get all products
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Products");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //clear productList
+                productModels.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    ProductModel productModel = ds.getValue(ProductModel.class);
+                    productModels.add(productModel);
+                }
+                //setupAdapter
+                adapterProducts = new AdapterProducts(getContext(), productModels);
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
+//                LinearLayoutManager gridLayoutManager = new LinearLayoutManager(Trangchu_Admin.this);
+//                gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyListData.setLayoutManager(gridLayoutManager);
+                recyListData.setAdapter(adapterProducts);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public void ActionViewFlipper(int images) {
         ImageView imageView = new ImageView(getContext());
         imageView.setImageResource(images);

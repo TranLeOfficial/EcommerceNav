@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 
@@ -37,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawer;
     private AppBarConfiguration mAppBarConfiguration;
     BottomNavigationView bottomMenuBar;
-    NavigationView navigationView; 
+    NavigationView navigationView;
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +88,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.logout){
+            finish();
+            Toast.makeText(this, "Bạn đã đăng xuất thành công!", Toast.LENGTH_SHORT).show();
+        }
         
         return super.onOptionsItemSelected(item);
     }
