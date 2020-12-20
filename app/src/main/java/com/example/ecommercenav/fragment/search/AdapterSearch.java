@@ -1,4 +1,4 @@
-package com.example.ecommercenav.fragment.home;
+package com.example.ecommercenav.fragment.search;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -18,6 +18,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ecommercenav.Filter.FilterProduct;
+import com.example.ecommercenav.Filter.FilterSearch;
 import com.example.ecommercenav.Model.ProductModel;
 import com.example.ecommercenav.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -25,16 +26,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.HolderProducts> implements Filterable {
-
+public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.HolderSearchProduct> implements Filterable {
+    
     private Context context;
     public ArrayList<ProductModel> productList, filterList;
-    private FilterProduct filter;
+    private FilterSearch filter;
 
-
-
-
-    public AdapterProducts(Context context, ArrayList<ProductModel> productList) {
+    public AdapterSearch(Context context, ArrayList<ProductModel> productList) {
         this.context = context;
         this.productList = productList;
         this.filterList = productList;
@@ -42,18 +40,18 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Holder
 
     @NonNull
     @Override
-    public HolderProducts onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public HolderSearchProduct onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //inflate layout
-        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_model, parent, false);
-        return new HolderProducts(view);
+        View view = LayoutInflater.from(context).inflate(R.layout.search_item_list, parent, false);
+        return new HolderSearchProduct(view);
     }
 
 
-    @Override
-    public void onBindViewHolder(@NonNull HolderProducts holder, int position) {
-        //get data
-        final ProductModel productModel = productList.get(position);
 
+    @Override
+    public void onBindViewHolder(@NonNull HolderSearchProduct holder, int position) {
+        //get Data
+        final ProductModel productModel = productList.get(position);
         String id = productModel.getProductID();
         String uid = productModel.getUid();
         String discountAvailable = productModel.getDiscountAvailable();
@@ -66,36 +64,29 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Holder
         String productIcon = productModel.getProductIcon();
         String stimetamp = productModel.getTimestamp();
 
-        //set data
-        holder.tvNameRecycler.setText(productTitle);
-        holder.tvPriceRecycler.setText(productPrice);
-        holder.discountPriceS.setText(discountPrice);
-        holder.discountPriceS.setVisibility(View.VISIBLE);
-//        if(discountAvailable.equals("true"))
-//        {
-//            //product is discount
-//            holder.discountPriceS.setVisibility(View.VISIBLE);
-//        }
-//        else {
-//            holder.discountPriceS.setVisibility(View.GONE);
-//        }
+        //set Data
+        holder.tvTitleSea.setText(productTitle);
+        holder.tvPriceSea.setText(productPrice);
+        holder.tvDiscountSea.setText(discountPrice);
+        holder.tvDiscountSea.setVisibility(View.VISIBLE);
         try {
-            Picasso.with(context).load(productIcon).placeholder(R.drawable.banner_ao).into(holder.imageRecyclerview);
+            Picasso.with(context).load(productIcon).placeholder(R.drawable.photoload).into(holder.imgSea);
         } catch (Exception e) {
-            holder.imageRecyclerview.setImageResource(R.drawable.banner_giay);
+            holder.imgSea.setImageResource(R.drawable.photoload);
         }
-        
+
+        holder.animationSearch.setAnimation(AnimationUtils.loadAnimation(context, R.anim.scale_list));
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //show item details
-                Toast.makeText(context, "Hello", Toast.LENGTH_SHORT).show();
                 detailsBottomSheet(productModel);
             }
         });
+
     }
 
-    private void detailsBottomSheet(final ProductModel productModel) {
+    private void detailsBottomSheet(ProductModel productModel) {
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
         //inflate view for bottomsheet
         View view = LayoutInflater.from(context).inflate(R.layout.detail_product, null);
@@ -129,6 +120,8 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Holder
         String productIcon = productModel.getProductIcon();
         final String stimetamp = productModel.getTimestamp();
 
+
+
         //setData
         productNameD.setText("Tên sản phẩm: " + productTitle);
         productPriceD.setText("Giá sản phẩm: " + productPrice);
@@ -142,7 +135,6 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Holder
         } catch (Exception e) {
             imgDetail.setImageResource(R.drawable.phone);
         }
-
 
         btnAddcartD.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,11 +151,7 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Holder
                 bottomSheetDialog.dismiss();
             }
         });
-        
-
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -173,30 +161,26 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Holder
     @Override
     public Filter getFilter() {
         if (filter == null) {
-            filter = new FilterProduct(this, filterList);
+            filter = new FilterSearch(this, filterList);
         }
         return filter;
     }
 
+    class HolderSearchProduct extends RecyclerView.ViewHolder {
 
-    class HolderProducts extends RecyclerView.ViewHolder {
+        private ImageView imgSea;
+        private TextView tvDiscountSea, tvTitleSea, tvPriceSea;
+        private CardView animationSearch;
 
-        private ImageView imageRecyclerview;
-        private TextView tvPriceRecycler;
-        private TextView tvNameRecycler;
-        private TextView discountPriceS;
-        private CardView cardView;
-
-
-        public HolderProducts(@NonNull View itemView) {
+        public HolderSearchProduct(@NonNull View itemView) {
             super(itemView);
 
-            cardView = itemView.findViewById(R.id.cardView);
-            imageRecyclerview = itemView.findViewById(R.id.imageRecyclerview);
-            tvPriceRecycler = itemView.findViewById(R.id.tvPriceRecycler);
-            tvNameRecycler = itemView.findViewById(R.id.tvNameRecycler);
-            discountPriceS = itemView.findViewById(R.id.discountPriceS);
+            animationSearch = itemView.findViewById(R.id.animationSearch);
+            imgSea = itemView.findViewById(R.id.imgSea);
+            tvDiscountSea = itemView.findViewById(R.id.tvDiscountSea);
+            tvTitleSea = itemView.findViewById(R.id.tvTitleSea);
+            tvPriceSea = itemView.findViewById(R.id.tvPriceSea);
         }
     }
-}
 
+}

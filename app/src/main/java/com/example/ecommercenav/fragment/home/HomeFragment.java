@@ -64,8 +64,7 @@ public class HomeFragment extends Fragment {
 //        images.add(R.drawable.banner_giay);
 //
 //        recyAdapter = new RecyAdapter(getContext(), titles, images, prices);
-        loadAllProducts();
-
+          loadAllProducts();
         
 
 //        Banner
@@ -91,9 +90,9 @@ public class HomeFragment extends Fragment {
                 }
                 //setupAdapter
                 adapterProducts = new AdapterProducts(getContext(), productModels);
-                GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
-//                LinearLayoutManager gridLayoutManager = new LinearLayoutManager(Trangchu_Admin.this);
-//                gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+               GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
+//            LinearLayoutManager gridLayoutManager = new LinearLayoutManager(getContext());
+//            gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 recyListData.setLayoutManager(gridLayoutManager);
                 recyListData.setAdapter(adapterProducts);
             }

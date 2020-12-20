@@ -8,20 +8,16 @@ import com.example.ecommercenav.fragment.search.AdapterSearch;
 
 import java.util.ArrayList;
 
-public class FilterProduct extends Filter {
+public class FilterSearch extends Filter {
 
     //private RecyAdapterProduct adapterProduct;
-    private AdapterProducts adapterProduct;
+    private AdapterSearch adapterSearch;
     private ArrayList<ProductModel> productModelListFilter;
 
 
-    public FilterProduct(AdapterProducts adapterProduct, ArrayList<ProductModel> productModelListFilter) {
-        this.adapterProduct = adapterProduct;
+    public FilterSearch(AdapterSearch adapterSearch, ArrayList<ProductModel> productModelListFilter) {
+        this.adapterSearch = adapterSearch;
         this.productModelListFilter = productModelListFilter;
-    }
-
-    public FilterProduct(AdapterSearch adapterSearch, ArrayList<ProductModel> filterList) {
-
     }
 
 
@@ -61,8 +57,8 @@ public class FilterProduct extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        adapterProduct.productList = (ArrayList<ProductModel>) results.values;
+        adapterSearch.productList = (ArrayList<ProductModel>) results.values;
         //refresh Adapter
-        adapterProduct.notifyDataSetChanged();
+        adapterSearch.notifyDataSetChanged();
     }
 }

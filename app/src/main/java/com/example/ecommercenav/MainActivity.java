@@ -7,10 +7,12 @@ import android.view.Menu;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 
+import com.example.ecommercenav.fragment.home.AdapterProducts;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -40,15 +42,13 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomMenuBar;
     NavigationView navigationView;
     FloatingActionButton fab;
+    public AdapterProducts adapterProducts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-        myRef.setValue("Hello, Tran Thanh Nhan!");
+
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -92,7 +91,9 @@ public class MainActivity extends AppCompatActivity {
             finish();
             Toast.makeText(this, "Bạn đã đăng xuất thành công!", Toast.LENGTH_SHORT).show();
         }
-        
+        if(item.getItemId() == R.id.timkiemsanpham)
+        {
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -102,6 +103,4 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
-
 }
