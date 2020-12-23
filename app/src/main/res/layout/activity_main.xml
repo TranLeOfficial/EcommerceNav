@@ -23,7 +23,9 @@
         app:itemIconTint="@color/colorPrimary"
         android:background="#B5CCE6"
         app:headerLayout="@layout/header_main"
-        app:menu="@menu/menu_navigation_drawer" />
+        app:menu="@menu/menu_navigation_drawer">
+
+    </com.google.android.material.navigation.NavigationView>
 
     
 
