@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#9BD7FB"
+    android:padding="5dp">
+    <TextView
+        android:id="@+id/rowCartProductName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product name"
+        android:textColor="#000000"
+        android:textSize="20sp"/>
+    <TextView
+        android:id="@+id/rowCartItemPlus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rowCartProductName"
+        android:layout_centerHorizontal="true"
+        android:text="10"
+        android:textSize="18sp"
+        android:textColor="#000000"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/rowCartProductName">
+        <TextView
+            android:id="@+id/rowCartPriceDiscount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:textColor="#5E5757"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/rowCartQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginStart="4dp"
+            android:text="[2]"
+            android:textColor="#5E5757"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/rowCartItemRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:textColor="#FF0000"
+        android:text="Xóa"
+        android:layout_below="@+id/rowCartProductName"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/rowCartItemRemove"
+        android:layout_marginTop="4dp"
+        android:background="#002B45"/>
+    
+
+        
+</RelativeLayout>

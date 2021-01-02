@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Giỏ Hàng"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textAllCaps="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cartShowList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            tools:listitem="@layout/row_content_showcart"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <RelativeLayout
+            android:id="@+id/pricesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/cartShowTamTinh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Tạm tính: "
+                android:textStyle="bold"
+                android:textColor="#000"/>
+            <TextView
+                android:id="@+id/cartShowTamTinhText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:padding="5dp"
+                android:text="$10"
+                android:textColor="#000"/>
+
+<!--            Phí vận chuyển-->
+            <TextView
+                android:id="@+id/cartShowVanChuyen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Phí vận chuyển: "
+                android:layout_below="@+id/cartShowTamTinh"
+                android:textStyle="bold"
+                android:textColor="#000"/>
+            <TextView
+                android:id="@+id/cartShowVanChuyenText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cartShowTamTinhText"
+                android:layout_alignParentEnd="true"
+                android:padding="5dp"
+                android:text="$10"
+                android:textColor="#000"/>
+<!--            Tổng -->
+
+            <TextView
+                android:id="@+id/cartShowTong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Tổng: "
+                android:layout_below="@+id/cartShowVanChuyen"
+                android:textStyle="bold"
+                android:textColor="#000"/>
+            <TextView
+                android:id="@+id/cartShowTongText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cartShowVanChuyenText"
+                android:layout_alignParentEnd="true"
+                android:padding="5dp"
+                android:text="$10"
+                android:textColor="#000"/>
+        </RelativeLayout>
+        <Button
+            android:id="@+id/cartShowDatHangBtn"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="Tiến hành đặt hàng"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/round_border_item"
+            android:layout_margin="5dp"/>
+    </LinearLayout>
+
+</ScrollView>

@@ -74,7 +74,7 @@ public class ProductModel {
     }
 
     public String getProductPrice() {
-        return productPrice + " đ";
+        return productPrice;
     }
 
     public void setProductPrice(String productPrice) {
@@ -114,7 +114,7 @@ public class ProductModel {
     }
 
     public String getDiscountPrice() {
-        return "-" + discountPrice + "% OFF";
+        return discountPrice;
     }
 
     public void setDiscountPrice(String discountPrice) {

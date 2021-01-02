@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/bgcolor_left"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/viewA"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewC" />
+
+    <TextView
+        android:id="@+id/cartQuantityCong_Tru"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="1"
+        app:layout_constraintBottom_toBottomOf="@+id/viewA"
+        app:layout_constraintEnd_toStartOf="@+id/cartIncrement"
+        app:layout_constraintStart_toEndOf="@+id/cartDecrement"
+        app:layout_constraintTop_toTopOf="@+id/viewA" />
+
+    <ImageButton
+        android:id="@+id/cartIncrement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewA"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/viewA"
+        app:srcCompat="@drawable/ic_add" />
+
+    <ImageButton
+        android:id="@+id/cartDecrement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewA"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/viewA"
+        app:srcCompat="@drawable/ic_remove" />
+
+    <View
+        android:id="@+id/viewB"
+        android:layout_width="wrap_content"
+        android:layout_height="170dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/viewC"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewB" />
+
+    <Button
+        android:id="@+id/addToCartBtn"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/bgcolor_right_cart"
+        android:drawableStart="@drawable/add_to_cart"
+        android:padding="10dp"
+        android:text="Them vao gio hang"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewA" />
+
+    <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+        android:id="@+id/cartIcon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/viewB"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
+
+    <TextView
+        android:id="@+id/cartTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Ten San Pham"
+        android:textColor="@color/colorRed"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cartIcon" />
+
+    <TextView
+        android:id="@+id/cartDiscount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.833"
+        app:layout_constraintStart_toEndOf="@+id/cartIcon"
+        app:layout_constraintTop_toTopOf="@+id/viewB" />
+
+    <TextView
+        android:id="@+id/cartPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="$ Gia Goc"
+        app:layout_constraintBottom_toBottomOf="@+id/viewC"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewB" />
+
+    <TextView
+        android:id="@+id/cartDiscountPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="$ Gia Khuyen Mai"
+        app:layout_constraintBottom_toBottomOf="@+id/viewC"
+        app:layout_constraintStart_toEndOf="@+id/cartPrice"
+        app:layout_constraintTop_toBottomOf="@+id/viewB" />
+
+    <TextView
+        android:id="@+id/cartPricePlus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$ Gia Tong"
+        app:layout_constraintBottom_toBottomOf="@+id/viewC"
+        app:layout_constraintEnd_toEndOf="@+id/viewC"
+        app:layout_constraintHorizontal_bias="0.927"
+        app:layout_constraintStart_toEndOf="@+id/cartDiscountPrice"
+        app:layout_constraintTop_toBottomOf="@+id/viewB"
+        app:layout_constraintVertical_bias="0.516" />
+</androidx.constraintlayout.widget.ConstraintLayout>
