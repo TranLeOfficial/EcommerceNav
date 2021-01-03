@@ -2,6 +2,7 @@ package com.example.ecommercenav.fragment.home;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,23 +20,40 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ecommercenav.Account.Login;
+import com.example.ecommercenav.Account.Register;
+import com.example.ecommercenav.Activity.AddToCart;
 import com.example.ecommercenav.Filter.FilterProduct;
 import com.example.ecommercenav.Model.ProductModel;
 import com.example.ecommercenav.Model.ProfileModel;
 import com.example.ecommercenav.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 
 import p32929.androideasysql_library.Column;
 import p32929.androideasysql_library.EasyDB;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.HolderProducts> implements Filterable {
 
     private Context context;
     public ArrayList<ProductModel> productList, filterList;
     private FilterProduct filter;
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
 
 
     public AdapterProducts(Context context, ArrayList<ProductModel> productList) {
@@ -55,6 +73,7 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Holder
 
     @Override
     public void onBindViewHolder(@NonNull HolderProducts holder, int position) {
+
         //get data
         final ProductModel productModel = productList.get(position);
 
@@ -151,11 +170,16 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Holder
         btnAddcartD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showQuantityDialog(productModel);
-                Toast.makeText(context, "Them Gio Hang", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(context, AddToCart.class);
+//                context.startActivity(intent);
+                bottomSheetDialog.dismiss();
+                Intent intent = new Intent(context, AddToCart.class);
+                intent.putExtra("productID", stimetamp);
+                context.startActivity(intent);
+                //showQuantityDialog(productModel);
+               // Toast.makeText(context, "Them Gio Hang", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         //back btn
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -172,19 +196,27 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Holder
     private int finalCost = 0;
     private int quantity = 0;
 
+    private ImageView cartIcon;
+    private TextView cartDiscount, cartTitle, cartPrice, cartDiscountPrice, cartPricePlus, cartQuantityCong_Tru;
+    private ImageButton cartIncrement, cartDecrement;
+    private Button addToCartBtn;
+    private String id_itemCart = "";
+
+
     private void showQuantityDialog(final ProductModel productModel) {
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_addcart, null);
         //init layout views
-        ImageView cartIcon = view.findViewById(R.id.cartIcon);
-        TextView cartDiscount = view.findViewById(R.id.cartDiscount);
-        final TextView cartTitle = view.findViewById(R.id.cartTitle);
-        TextView cartPrice = view.findViewById(R.id.cartPrice);
-        final TextView cartDiscountPrice = view.findViewById(R.id.cartDiscountPrice);
-        final TextView cartPricePlus = view.findViewById(R.id.cartPricePlus);
-        final TextView cartQuantityCong_Tru = view.findViewById(R.id.cartQuantityCong_Tru);
-        ImageButton cartIncrement = view.findViewById(R.id.cartIncrement);
-        ImageButton cartDecrement = view.findViewById(R.id.cartDecrement);
-        Button addToCartBtn = view.findViewById(R.id.addToCartBtn);
+        cartIcon = view.findViewById(R.id.cartIcon);
+        cartDiscount = view.findViewById(R.id.cartDiscount);
+        cartTitle = view.findViewById(R.id.cartTitle);
+        cartPrice = view.findViewById(R.id.cartPrice);
+        cartDiscountPrice = view.findViewById(R.id.cartDiscountPrice);
+        cartPricePlus = view.findViewById(R.id.cartPricePlus);
+        cartQuantityCong_Tru = view.findViewById(R.id.cartQuantityCong_Tru);
+        cartIncrement = view.findViewById(R.id.cartIncrement);
+        cartDecrement = view.findViewById(R.id.cartDecrement);
+        addToCartBtn = view.findViewById(R.id.addToCartBtn);
+
 
         //load data from model
         final String productID = productModel.getProductID();
@@ -198,11 +230,13 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Holder
         String productPrice = productModel.getProductPrice();
         String productIcon = productModel.getProductIcon();
         final String stimetamp = productModel.getTimestamp();
+
+
         int a = Integer.parseInt(productModel.getProductPrice());
         int b = Integer.parseInt(productModel.getDiscountPrice());
-        cost = a-((a*b)/100);
+        cost = a - ((a * b) / 100);
         //getData
-        int sPrice;
+        final int sPrice;
         sPrice = cost;
         cartPrice.setPaintFlags(cartPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         finalCost = sPrice;
@@ -219,7 +253,7 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Holder
         }
 
         cartTitle.setText("" + productTitle);
-        cartDiscount.setText("" + Integer.parseInt(discountPrice) +"% OFF");
+        cartDiscount.setText("" + Integer.parseInt(discountPrice) + "% OFF");
         cartQuantityCong_Tru.setText("" + quantity);
         cartPrice.setText("" + productModel.getProductPrice());
         cartDiscountPrice.setText("" + cost);
@@ -234,7 +268,7 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Holder
                 finalCost = finalCost + cost;
                 quantity++;
 
-                cartPricePlus.setText(finalCost +  " VND");
+                cartPricePlus.setText(finalCost + " VND");
                 cartQuantityCong_Tru.setText("" + quantity);
             }
         });
@@ -244,7 +278,7 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Holder
                 if (quantity > 1) {
                     finalCost = finalCost - cost;
                     quantity--;
-                    cartPricePlus.setText(finalCost+ " VND");
+                    cartPricePlus.setText(finalCost + " VND");
                     cartQuantityCong_Tru.setText("" + quantity);
                 }
             }
@@ -252,15 +286,71 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Holder
         addToCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = cartTitle.getText().toString().trim();
-                String priceDiscount = cartDiscountPrice.getText().toString().trim().replace("VND","");
-                String price = cartPricePlus.getText().toString().trim();
-                String quantity_plus= cartQuantityCong_Tru.getText().toString().trim().replace("VND", "");
-                addToCart(productID, title, priceDiscount, price, quantity_plus);
+                id_itemCart = productID;
+//                String title = cartTitle.getText().toString().trim();
+//                String priceDiscount = String.valueOf(sPrice);
+//                String totalPrice = cartPricePlus.getText().toString().trim();
+//                String quantity_plus= cartQuantityCong_Tru.getText().toString().trim().replace("VND", "");
+//                addToCart(productID, title, priceDiscount, totalPrice, quantity_plus);
+                addingToCartList();
                 dialog.dismiss();
             }
         });
+
     }
+
+    private String saveCurrentTime, saveCurrentDate;
+
+    private void addingToCartList() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+
+        Calendar calendarForDate = Calendar.getInstance();
+        SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, yyyy");
+        saveCurrentDate = currentDate.format(calendarForDate.getTime());
+
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
+        saveCurrentTime = currentTime.format(calendarForDate.getTime());
+
+        final DatabaseReference referenceCart = FirebaseDatabase.getInstance().getReference().child("CartList");
+
+        final HashMap<String, Object> cartMap = new HashMap<>();
+        cartMap.put("id", saveCurrentTime);
+        cartMap.put("p_name", cartTitle);
+        cartMap.put("p_discount", cartDiscount);
+        cartMap.put("p_quantity", cartQuantityCong_Tru);
+        cartMap.put("p_price", cartPrice);
+        cartMap.put("p_discount_price", cartDiscountPrice);
+        cartMap.put("p_price_final", cartPricePlus);
+        cartMap.put("p_date", saveCurrentDate);
+        cartMap.put("p_time", saveCurrentTime);
+
+        referenceCart.child("User View").child(firebaseUser.getUid())
+                .child("Products").child(saveCurrentTime)
+                .updateChildren(cartMap)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            referenceCart.child("Admin View").child(firebaseAuth.getUid())
+                                    .child("Products").child(saveCurrentTime)
+                                    .updateChildren(cartMap)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful())
+                                            {
+                                                Toast.makeText(context, "Them Gio Hang Thanh Cong ", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                });
+
+    }
+
 
     private int itemId = 1;
 
