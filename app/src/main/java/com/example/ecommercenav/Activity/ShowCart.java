@@ -2,10 +2,13 @@ package com.example.ecommercenav.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,14 +16,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ecommercenav.Adapter.CartViewItemHolder;
+import com.example.ecommercenav.MainActivity;
 import com.example.ecommercenav.Model.CartModel;
 import com.example.ecommercenav.R;
 //import com.firebase.ui.database.FirebaseRecyclerAdapter;
 //import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +42,6 @@ public class ShowCart extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
-
 
 
     @Override
@@ -72,10 +78,52 @@ public class ShowCart extends AppCompatActivity {
 
         FirebaseRecyclerAdapter<CartModel, CartViewItemHolder> adapter = new FirebaseRecyclerAdapter<CartModel, CartViewItemHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull CartViewItemHolder holder, int position, @NonNull CartModel cartModel) {
+            protected void onBindViewHolder(@NonNull CartViewItemHolder holder, int position, @NonNull final CartModel cartModel) {
                 holder.item_CartName.setText(cartModel.getP_name());
-                holder.item_CartPrice.setText(cartModel.getP_price_final());
-                holder.item_CartQuantity.setText("["+cartModel.getP_quantity()+"]");
+                holder.item_CartPrice.setText(cartModel.getP_price_final() + " đ");
+                holder.item_CartQuantity.setText("Số lượng:[" + cartModel.getP_quantity() + "]");
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CharSequence options[] = new CharSequence[]
+                                {
+                                        "Chỉnh sửa",
+                                        "Xóa"
+                                };
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(ShowCart.this);
+                        builder.setTitle("Lựa chọn");
+                        builder.setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, int which) {
+                                if (which == 0) {
+                                    Intent intent = new Intent(ShowCart.this, AddToCart.class);
+                                    intent.putExtra("id", cartModel.getId());
+                                    startActivity(intent);
+                                }
+                                if (which == 1) {
+                                    reference.child("UserView")
+                                            .child(firebaseUser.getUid())
+                                            .child("Products")
+                                            .child(cartModel.getId())
+                                            .removeValue()
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(ShowCart.this, "Xóa Thành Công!", Toast.LENGTH_SHORT).show();
+//                                                        Intent intent = new Intent(ShowCart.this, MainActivity.class);
+//                                                        startActivity(intent);
+                                                        dialog.dismiss();
+                                                    }
+                                                }
+                                            });
+                                }
+                            }
+                        });
+                        builder.show();
+                    }
+                });
             }
 
             @NonNull
