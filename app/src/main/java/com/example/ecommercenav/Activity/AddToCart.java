@@ -18,6 +18,7 @@ import com.example.ecommercenav.Model.ProductModel;
 import com.example.ecommercenav.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -70,8 +71,9 @@ public class AddToCart extends AppCompatActivity {
     private void eventAction() {
         cart_Add_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 addingToCartList();
+                Snackbar.make(view, "Them Gio Hang Thanh Cong", Snackbar.LENGTH_SHORT).show();
             }
         });
     }
@@ -178,7 +180,7 @@ public class AddToCart extends AppCompatActivity {
         cart_Description = findViewById(R.id.cart_Description);
         cart_Name = findViewById(R.id.cart_Name);
         cart_Cong_Tru = findViewById(R.id.cart_Cong_Tru);
-        cart_Add_Btn = findViewById(R.id.cart_Add_Btn);
+                cart_Add_Btn = findViewById(R.id.cart_Add_Btn);
     }
 
 

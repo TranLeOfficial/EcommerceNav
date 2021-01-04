@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.ecommercenav.Account.Login;
+import com.example.ecommercenav.Activity.ShowCart;
 import com.example.ecommercenav.Model.ProfileModel;
 import com.example.ecommercenav.fragment.home.AdapterProducts;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -67,7 +68,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(MainActivity.this, ShowCart.class);
+                startActivity(intent);
             }
         });
 

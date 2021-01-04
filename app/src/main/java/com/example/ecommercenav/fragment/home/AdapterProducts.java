@@ -41,8 +41,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-import p32929.androideasysql_library.Column;
-import p32929.androideasysql_library.EasyDB;
+
 
 import static androidx.core.content.ContextCompat.startActivity;
 
@@ -354,26 +353,7 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Holder
 
     private int itemId = 1;
 
-    private void addToCart(String productID, String title, String priceDiscount, String price, String quantity_plus) {
-        itemId++;
-        EasyDB easyDB = EasyDB.init(context, "ITEMS_DB")
-                .setTableName("ITEMS_TABLE")
-                .addColumn(new Column("Item_Id", new String[]{"text", "unique"}))
-                .addColumn(new Column("Item_PID", new String[]{"text", "not null"}))
-                .addColumn(new Column("Item_Name", new String[]{"text", "not null"}))
-                .addColumn(new Column("Item_Price_Each", new String[]{"text", "not null"}))
-                .addColumn(new Column("Item_Price", new String[]{"text", "not null"}))
-                .addColumn(new Column("Item_Quantity", new String[]{"text", "not null"}))
-                .doneTableColumn();
-        Boolean b = easyDB.addData("Item_Id", itemId)
-                .addData("Item_PID", productID)
-                .addData("Item_Name", title)
-                .addData("Item_Price_Each", priceDiscount)
-                .addData("Item_Price", price)
-                .addData("Item_Quantity", quantity_plus)
-                .doneDataAdding();
-        Toast.makeText(context, "Addtocart...", Toast.LENGTH_SHORT).show();
-    }
+    
 
 
     @Override
