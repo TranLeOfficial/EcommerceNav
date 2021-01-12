@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -20,12 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ecommercenav.Account.Login;
-import com.example.ecommercenav.Account.Register;
-import com.example.ecommercenav.Activity.AddToCart;
+import com.example.ecommercenav.Cart.AddToCart;
 import com.example.ecommercenav.Filter.FilterProduct;
 import com.example.ecommercenav.Model.ProductModel;
-import com.example.ecommercenav.Model.ProfileModel;
 import com.example.ecommercenav.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,10 +36,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-
-
-
-import static androidx.core.content.ContextCompat.startActivity;
 
 public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.HolderProducts> implements Filterable {
 

@@ -41,8 +41,8 @@
             android:layout_marginLeft="5dp"
             android:text="Gia san pham"
             android:layout_below="@+id/item_CartName"
-            android:textColor="#F40000"
-            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:textStyle="bold"/>

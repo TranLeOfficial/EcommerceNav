@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.ecommercenav.Account.Login;
-import com.example.ecommercenav.Activity.ShowCart;
+import com.example.ecommercenav.Cart.ShowCart;
 import com.example.ecommercenav.Model.ProfileModel;
 import com.example.ecommercenav.fragment.home.AdapterProducts;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

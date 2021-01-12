@@ -15,10 +15,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.ShowCart"
-            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".OderCart.ConfirmOderFinal"
+            android:parentActivityName=".Cart.ShowCart"></activity>
         <activity
-            android:name=".Activity.AddToCart"
+            android:name=".Cart.UpdateCart"
+            android:parentActivityName=".Cart.ShowCart" />
+        <activity
+            android:name=".Cart.ShowCart"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".Cart.AddToCart"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Account.ForgotPassword"

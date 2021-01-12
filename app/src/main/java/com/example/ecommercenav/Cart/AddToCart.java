@@ -1,4 +1,4 @@
-package com.example.ecommercenav.Activity;
+package com.example.ecommercenav.Cart;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -46,6 +46,8 @@ public class AddToCart extends AppCompatActivity {
     private FirebaseUser firebaseUser;
 
     private ProductModel productModel;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,7 @@ public class AddToCart extends AppCompatActivity {
         cartMap.put("p_date", saveCurrentDate);
         cartMap.put("p_time", saveCurrentTime);
 
+
         referenceCart.child("UserView").child(firebaseUser.getUid())
                 .child("Products").child(productID)
                 .updateChildren(cartMap)
@@ -140,7 +143,7 @@ public class AddToCart extends AppCompatActivity {
                 {
                     productModel = dataSnapshot.getValue(ProductModel.class);
                     cart_Name.setText(productModel.getProductTitle());
-                    cart_Description.setText("Mô tả: "+productModel.getProductDescription());
+                    cart_Description.setText("Mô tả: "+ productModel.getProductDescription());
                     cart_Discount.setText(productModel.getDiscountPrice()+"% OFF");
                     cart_Price.setText(productModel.getProductPrice()+"");
                     Picasso.with(AddToCart.this).load(productModel.getProductIcon()).into(cart_Icon);
@@ -180,7 +183,7 @@ public class AddToCart extends AppCompatActivity {
         cart_Description = findViewById(R.id.cart_Description);
         cart_Name = findViewById(R.id.cart_Name);
         cart_Cong_Tru = findViewById(R.id.cart_Cong_Tru);
-                cart_Add_Btn = findViewById(R.id.cart_Add_Btn);
+        cart_Add_Btn = findViewById(R.id.cart_Add_Btn);
     }
 
 

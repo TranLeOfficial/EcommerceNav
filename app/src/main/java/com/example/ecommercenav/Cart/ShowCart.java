@@ -1,4 +1,4 @@
-package com.example.ecommercenav.Activity;
+package com.example.ecommercenav.Cart;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -19,8 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ecommercenav.Adapter.CartViewItemHolder;
-import com.example.ecommercenav.MainActivity;
 import com.example.ecommercenav.Model.CartModel;
+import com.example.ecommercenav.Model.ProductModel;
+import com.example.ecommercenav.OderCart.ConfirmOderFinal;
 import com.example.ecommercenav.R;
 //import com.firebase.ui.database.FirebaseRecyclerAdapter;
 //import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -42,6 +43,10 @@ public class ShowCart extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private ProductModel productModel;
+
+    private int overTotalPrice = 0;
+    private int  oneTyprProductPrice = 0;
 
 
     @Override
@@ -55,6 +60,21 @@ public class ShowCart extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         AnhXa();
+        eventAction();
+
+    }
+
+    private void eventAction() {
+        btnCart_ShowNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                totalFinal.setText(String.valueOf(overTotalPrice));
+                Intent intent = new Intent(ShowCart.this, ConfirmOderFinal.class);
+                intent.putExtra("Total Price", String.valueOf(overTotalPrice));
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void AnhXa() {
@@ -70,6 +90,7 @@ public class ShowCart extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        productModel = new ProductModel();
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("CartList");
         FirebaseRecyclerOptions<CartModel> options = new FirebaseRecyclerOptions.Builder<CartModel>()
                 .setQuery(reference.child("UserView")
@@ -80,15 +101,18 @@ public class ShowCart extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull CartViewItemHolder holder, int position, @NonNull final CartModel cartModel) {
                 holder.item_CartName.setText(cartModel.getP_name());
-                holder.item_CartPrice.setText(cartModel.getP_price_final() + " đ");
+                holder.item_CartPrice.setText("Giá: " + cartModel.getP_price_final() + " đ");
                 holder.item_CartQuantity.setText("Số lượng:[" + cartModel.getP_quantity() + "]");
+
+                oneTyprProductPrice = ((Integer.valueOf(cartModel.getP_discount_price()))) * Integer.valueOf(cartModel.getP_quantity());
+                overTotalPrice = overTotalPrice + oneTyprProductPrice;
+                totalFinal.setText(String.valueOf(overTotalPrice));
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         CharSequence options[] = new CharSequence[]
                                 {
-                                        "Chỉnh sửa",
                                         "Xóa"
                                 };
                         final AlertDialog.Builder builder = new AlertDialog.Builder(ShowCart.this);
@@ -96,12 +120,14 @@ public class ShowCart extends AppCompatActivity {
                         builder.setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(final DialogInterface dialog, int which) {
+//                                if (which == 0) {
+//                                    Intent intent = new Intent(ShowCart.this, UpdateCart.class);
+//                                    //intent = getIntent();
+//                                    intent.putExtra("id", cartModel.getId());
+//                                    intent.putExtra("productID", productModel.getProductID());
+//                                    startActivity(intent);
+//                                }
                                 if (which == 0) {
-                                    Intent intent = new Intent(ShowCart.this, AddToCart.class);
-                                    intent.putExtra("id", cartModel.getId());
-                                    startActivity(intent);
-                                }
-                                if (which == 1) {
                                     reference.child("UserView")
                                             .child(firebaseUser.getUid())
                                             .child("Products")
@@ -114,11 +140,14 @@ public class ShowCart extends AppCompatActivity {
                                                         Toast.makeText(ShowCart.this, "Xóa Thành Công!", Toast.LENGTH_SHORT).show();
 //                                                        Intent intent = new Intent(ShowCart.this, MainActivity.class);
 //                                                        startActivity(intent);
+                                                        oneTyprProductPrice = ((Integer.valueOf(cartModel.getP_discount_price()))) * Integer.valueOf(cartModel.getP_quantity());
+                                                        overTotalPrice = overTotalPrice - oneTyprProductPrice;
+                                                        totalFinal.setText(String.valueOf(overTotalPrice));
                                                         dialog.dismiss();
                                                     }
                                                 }
                                             });
-                                }
+                                }                                                                                    
                             }
                         });
                         builder.show();

@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"  
     android:layout_height="match_parent"
-    tools:context=".Activity.ShowCart"
+    tools:context=".Cart.ShowCart"
     android:padding="10dp">
     <RelativeLayout
         android:id="@+id/show111"
