@@ -29,7 +29,7 @@
             android:id="@+id/totalFinal"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="15000"
+            android:text="0"
             android:textSize="25sp"
             android:textAlignment="center"
             android:textStyle="bold"

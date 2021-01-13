@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    app:cardElevation="15dp">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#279F06"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/alarm_time_oder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ngay_ Gio"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/alarm_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Giá"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/alarm_date_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ngay_ Gio"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/alarm_phone"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="0987766"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/alarm_mess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="messenger o day"
+            android:textColor="#F0F800"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"/>
+        
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

@@ -85,16 +85,17 @@ public class ConfirmOderFinal extends AppCompatActivity {
         saveCurrentTime = currentTime.format(calendarForDate.getTime());
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child("CartOders")
-                .child(firebaseUser.getUid());
+                .child(shipmentPhone.getText().toString());
         HashMap<String, Object> odersMap = new HashMap<>();
         odersMap.put("total_mount", totalAmount);
         odersMap.put("oder_name", shipmentName.getText().toString());
         odersMap.put("oder_phone", shipmentPhone.getText().toString());
         odersMap.put("oder_email", shipmentEmail.getText().toString());
         odersMap.put("oder_address", shipmentAddress.getText().toString());
-        odersMap.put("date", saveCurrentDate);
+        odersMap.put("dated", saveCurrentDate);
         odersMap.put("time", saveCurrentTime);
         odersMap.put("state", "Not Shipped");
+        odersMap.put("uid", firebaseUser.getUid());
 
         reference.updateChildren(odersMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

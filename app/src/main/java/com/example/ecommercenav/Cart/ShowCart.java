@@ -69,10 +69,18 @@ public class ShowCart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 totalFinal.setText(String.valueOf(overTotalPrice));
-                Intent intent = new Intent(ShowCart.this, ConfirmOderFinal.class);
-                intent.putExtra("Total Price", String.valueOf(overTotalPrice));
-                startActivity(intent);
-                finish();
+                if (overTotalPrice <= 0)
+                {
+                    //btnCart_ShowNext.setEnabled(false);
+                    Toast.makeText(ShowCart.this, "Giỏ hàng chưa có sản phẩm!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent intent = new Intent(ShowCart.this, ConfirmOderFinal.class);
+                    intent.putExtra("Total Price", String.valueOf(overTotalPrice));
+                    startActivity(intent);
+                    finish();
+                }
+
             }
         });
     }
@@ -106,7 +114,9 @@ public class ShowCart extends AppCompatActivity {
 
                 oneTyprProductPrice = ((Integer.valueOf(cartModel.getP_discount_price()))) * Integer.valueOf(cartModel.getP_quantity());
                 overTotalPrice = overTotalPrice + oneTyprProductPrice;
-                totalFinal.setText(String.valueOf(overTotalPrice));
+                totalFinal.setText(String.valueOf(overTotalPrice) + " đ");
+
+
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
